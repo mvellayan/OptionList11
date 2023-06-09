@@ -1,10 +1,10 @@
 DELIMITER $$
+DROP PROCEDURE IF EXISTS `model_close`;
 CREATE DEFINER=`root`@`localhost` PROCEDURE `model_close`(in p_model_id int)
 BEGIN
-     declare l_con_id_list varchar(2048);
 	 declare l_op_tv, l_op_iv, l_cl_tv, l_cl_iv double;
 	 declare l_con_id int;
-     select con_id_list, op_iv, op_tv, cl_iv, cl_tv into l_con_id_list, l_op_iv, l_op_tv, l_cl_iv,  l_cl_tv from model where model_id = p_model_id;
+     select op_iv, op_tv, cl_iv, cl_tv into l_op_iv, l_op_tv, l_cl_iv,  l_cl_tv from model where model_id = p_model_id;
      truncate table logs;
     
     BLOCK1: begin 
@@ -17,8 +17,7 @@ BEGIN
 			where r.model_id = p_model_id
 			and oq.id = r.op_oq_id
 			and r.cl_oq_id is null;
- 		-- DECLARE CONTINUE HANDLER FOR SQLSTATE '02000' SET cl_p1_flag = 1;
-        DECLARE CONTINUE HANDLER FOR NOT FOUND SET cl_p1_flag = TRUE;
+ 		DECLARE CONTINUE HANDLER FOR NOT FOUND SET cl_p1_flag = TRUE;
         open cl_p1;
 		cl_p1_loop: LOOP
         FETCH cl_p1 INTO l_op_oq_id, l_op_oq_date, l_con_id;
@@ -34,14 +33,10 @@ BEGIN
                 declare l_net double(9,4);
 				declare cl_p2 cursor for 
 						select oq.id
-							-- sq.quote_date, ol.expiry, datediff(ol.expiry, oq.quote_date) AS date_difference,
-							-- sq.trade_average stock_quote, ol.strike, oq.trade_average option_quote, oq.iv, oq.open_tv, oq.close_tv 
-						from stock_quote sq, option_quote oq, option_list ol
-						where oq.con_id = ol.con_id 
-						and oq.quote_date = sq.quote_date
+						from stock_quote sq, option_quote oq
+						where oq.quote_date = sq.quote_date
 						and oq.quote_date > l_op_oq_date
                         and oq.con_id = l_con_id
-						-- criteria
 						and oq.close_tv <= ifnull(l_cl_tv, oq.close_tv)
 						and oq.iv <= ifnull(l_cl_iv, oq.iv)
 						order by sq.quote_date;
