@@ -1,15 +1,15 @@
 DELIMITER $$
 drop function if exists get_tv$$
 CREATE DEFINER=`root`@`localhost` FUNCTION `get_tv`(
-	sq_trade_average double(9,3), 
-	strike double(9,3),
-    oq_bid_avg double(9,4),
-    oq_ask_avg double(9,4),
+	sq_trade_average double,
+	strike double,
+    oq_bid_avg double,
+    oq_ask_avg double,
 	option_type varchar(1),
-    transaction_type varchar(10)) RETURNS double(9,4)
+    transaction_type varchar(10)) RETURNS double
     DETERMINISTIC
 BEGIN
-  declare iv, tv double(9,3);
+  declare iv, tv double;
   set iv = greatest(0.0, get_iv(sq_trade_average, strike, option_type));
   # https://www.ig.com/en/trading-strategies/option-pricing--the-intrinsic-and-time-values-of-options-explain-220111
   # TV = premium - IV

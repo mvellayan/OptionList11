@@ -1,13 +1,13 @@
 DELIMITER $$
 drop function if exists get_net$$
 CREATE DEFINER=`root`@`localhost` FUNCTION `get_net`(
-	l_op_sq_bid double(9,3), l_op_sq_ask double(9,3), l_op_oq_bid double(9,3), l_op_oq_ask double(9,3),
-    l_cl_sq_bid double(9,3), l_cl_sq_ask double(9,3), l_cl_oq_bid double(9,3), l_cl_oq_ask double(9,3),
-    net_type varchar(10)) RETURNS double(9,3)
+	l_op_sq_bid double, l_op_sq_ask double, l_op_oq_bid double, l_op_oq_ask double,
+    l_cl_sq_bid double, l_cl_sq_ask double, l_cl_oq_bid double, l_cl_oq_ask double,
+    net_type varchar(10)) RETURNS double
     NO SQL
     DETERMINISTIC
 BEGIN
-  DECLARE r_net double(9,3);
+  DECLARE r_net double;
   # https://www.ig.com/en/trading-strategies/option-pricing--the-intrinsic-and-time-values-of-options-explain-220111
 
   if net_type = 'NET' then

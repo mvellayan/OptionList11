@@ -58,4 +58,4 @@ and oo.con_id = oq.con_id
 and oo.op_date < sq.quote_date
 and op_oq_id = 3920311
 and date(oo.op_date) = date(sq.quote_date)
-order by sq.quote_date;
+order by op_date, sq.quote_date;
