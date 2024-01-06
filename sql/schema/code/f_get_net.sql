@@ -1,4 +1,5 @@
 DELIMITER $$
+drop function if exists get_net$$
 CREATE DEFINER=`root`@`localhost` FUNCTION `get_net`(
 	l_op_sq_bid double(9,3), l_op_sq_ask double(9,3), l_op_oq_bid double(9,3), l_op_oq_ask double(9,3),
     l_cl_sq_bid double(9,3), l_cl_sq_ask double(9,3), l_cl_oq_bid double(9,3), l_cl_oq_ask double(9,3),

@@ -1,4 +1,5 @@
 DELIMITER $$
+drop function if exists get_tv$$
 CREATE DEFINER=`root`@`localhost` FUNCTION `get_tv`(
 	sq_trade_average double(9,3), 
 	strike double(9,3),

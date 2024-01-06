@@ -1,4 +1,5 @@
 DELIMITER $$
+drop function if exists get_iv$$
 CREATE DEFINER=`root`@`localhost` FUNCTION `get_iv`(
 	sq_trade_average double(9,3), 
 	strike double(9,3),

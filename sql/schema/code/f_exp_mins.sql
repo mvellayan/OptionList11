@@ -1,5 +1,6 @@
 DELIMITER $$
-CREATE DEFINER=`root`@`localhost` FUNCTION `get_min_diff`(
+drop function if exists get_exp_mins$$
+CREATE DEFINER=`root`@`localhost` FUNCTION `get_exp_mins`(
 	start_date datetime,
 	end_date datetime) RETURNS int
     NO SQL
@@ -9,11 +10,9 @@ BEGIN
     declare start_mins, max_days, ctr, days int;
     declare new_date_str varchar(10);
 
+	# not validating start/end date for performance reasons.
 	set end_date = STR_TO_DATE(concat(date_format(end_date,'%Y%m%d'), ' 16:00'),'%Y%m%d %H:%i');
     #insert into logs (log) values (concat_ws(' ', 'Params (start_date, end_date)', start_date, end_date));
-
-	# not validating start/end date for performance reasons.
-    #insert into logs (log) values (concat_ws(' ', 'start date 2', start_date));
 
 	if start_date >= end_date then
 		return 0;

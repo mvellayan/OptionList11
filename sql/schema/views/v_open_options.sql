@@ -13,7 +13,7 @@ select sq.quote_date op_date, sq.id op_sq_id,  oq.id op_oq_id,
        oq.trade_average op_oq_trade_average, oq.bid_avg , oq.ask_avg, format(oq.trade_average_delta_30,3) op_oq_trade_average_delta_30,
        oq.barcount_sum_30 op_oq_barcount_sum_30,
 
-       oq.iv op_iv, oq.open_tv op_tv, get_min_diff(sq.quote_date, ol.expiry) op_dur,
+       oq.iv op_iv, oq.open_tv op_tv, get_exp_mins(sq.quote_date, ol.expiry) op_dur,
        ol.con_id ol_con_id,  ol.expiry ol_expiry, ol.strike ol_strike,  ol.local_symbol ol_local_symbol
 from  option_list ol, option_quote oq, stock_quote sq
 where sq.quote_date = oq.quote_date

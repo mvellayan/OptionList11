@@ -1,5 +1,5 @@
 DELIMITER $$
-DROP PROCEDURE IF EXISTS `model_close`;
+DROP PROCEDURE IF EXISTS `model_close`$$
 CREATE DEFINER=`root`@`localhost` PROCEDURE `model_close`(in p_model_id int)
 BEGIN
 	 declare l_op_tv, l_op_iv, l_cl_tv, l_cl_iv double;

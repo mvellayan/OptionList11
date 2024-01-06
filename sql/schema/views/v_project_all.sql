@@ -28,7 +28,7 @@ select
 
   oq.iv cl_iv,
   oq.close_tv cl_tv,
-  get_min_diff(sq.quote_date, expiry) cl_dur,
+  get_exp_mins(sq.quote_date, expiry) cl_dur,
 
   /* Position Summary */
   /* get_min_diff(oo.op_date, sq.quote_date) pos_dur, */

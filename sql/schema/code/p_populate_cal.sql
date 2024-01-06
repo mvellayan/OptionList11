@@ -1,4 +1,5 @@
 DELIMITER $$
+drop procedure if exists populate_cal$$
 CREATE DEFINER=`root`@`localhost` PROCEDURE `populate_cal`(start_date date, max_days int)
 BEGIN
 	declare x int default 0;

@@ -1,4 +1,5 @@
 DELIMITER $$
+drop procedure if exists get_net$$
 CREATE DEFINER=`root`@`localhost` PROCEDURE `get_net`(
     in p_op_ol_id int,
     in p_cl_ol_id int,
