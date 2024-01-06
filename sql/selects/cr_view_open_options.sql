@@ -1,10 +1,11 @@
+use ol7;
 drop view if exists open_options;
 create view open_options(
     op_date, op_sq_id, op_oq_id,
     op_sq_trade_average, op_sq_bid_average, op_sq_ask_average, op_sq_trade_average_delta_30, op_sq_barcount_sum_30,
     op_oq_trade_average, op_oq_bid_average, op_oq_ask_average, op_oq_trade_average_delta_30, op_oq_barcount_sum_30,
     op_iv, op_tv, op_dur,
-    ol_con_id, ol_expiry, ol_strike, ol_local_symbol) as
+    con_id, expiry, strike, local_symbol) as
 select sq.quote_date op_date, sq.id op_sq_id,  oq.id op_oq_id,
        sq.trade_average op_sq_trade_average, sq.bid_avg , sq.ask_avg, format(sq.trade_average_delta_30,3) op_sq_trade_average_delta_30,
        sq.barcount_sum_30 op_sq_barcount_sum_30,

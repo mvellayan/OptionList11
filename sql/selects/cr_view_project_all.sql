@@ -28,33 +28,34 @@ select
 
   oq.iv cl_iv,
   oq.close_tv cl_tv,
-  get_min_diff(sq.quote_date, ol.expiry) cl_dur,
+  get_min_diff(sq.quote_date, expiry) cl_dur,
 
   /* Position Summary */
-  get_min_diff(oo.op_date, sq.quote_date) pos_dur,
+  /* get_min_diff(oo.op_date, sq.quote_date) pos_dur, */
+  round(TIME_TO_SEC(TIMEDIFF(sq.quote_date, oo.op_date))/60,0) pos_dur,
   get_net(op_sq_bid_average, op_sq_ask_average,
       op_oq_bid_average, op_oq_ask_average,
       sq.bid_avg , sq.ask_avg,
-      oq.bid_avg , oq.ask_avg, 'OPT') pos_opt,
+      oq.bid_avg , oq.ask_avg, 'OPT') net_opt,
   get_net(op_sq_bid_average, op_sq_ask_average,
       op_oq_bid_average, op_oq_ask_average,
       sq.bid_avg , sq.ask_avg,
-      oq.bid_avg , oq.ask_avg, 'STK') pos_stk,
+      oq.bid_avg , oq.ask_avg, 'STK') net_stk,
   get_net(op_sq_bid_average, op_sq_ask_average,
       op_oq_bid_average, op_oq_ask_average,
       sq.bid_avg , sq.ask_avg,
-      oq.bid_avg , oq.ask_avg, 'NET') pos_net,
+      oq.bid_avg , oq.ask_avg, 'NET') net_tot,
 
   /* Option List */
-     ol.con_id con_id,
-     ol.expiry ol_expiry,
-     ol.strike ol_strike,
-     ol.local_symbol ol_local_symbol
+     oo.con_id,
+     expiry,
+     strike,
+     local_symbol
 
-from  option_list ol, option_quote oq, stock_quote sq, open_options oo
+from  option_quote oq, stock_quote sq, open_options oo
 where sq.quote_date = oq.quote_date
-and oo.ol_con_id = oq.con_id
-and ol.con_id = oq.con_id
+and oo.con_id = oq.con_id
 and oo.op_date < sq.quote_date
+and op_oq_id = 3920311
 and date(oo.op_date) = date(sq.quote_date)
 order by sq.quote_date;
